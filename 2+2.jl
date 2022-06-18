@@ -9,6 +9,7 @@ Pkg.add("Lathe")
 Pkg.add("GLM")
 Pkg.add("StatsPlots")
 Pkg.add("MLBase")
+Pkg.add("Flux")
 
 # Load the installed packages
 using DataFrames
@@ -19,6 +20,7 @@ using GLM
 using Statistics
 using StatsPlots
 using MLBase
+using Flux
 
 # Enable printing of 1000 columns
 ENV["COLUMNS"] = 1000
