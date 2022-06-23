@@ -153,3 +153,9 @@ println("Array ia: ", ia)
 
 f1!(ia)
 println("Argument passing by reference: ", ia)
+
+a1 = [2,3,1,6,2,8]
+sort!(a1)                                   # ! pushes function output in input
+a1
+
+Penis
