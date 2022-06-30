@@ -2,7 +2,7 @@
 using Pkg  # Package to install new packages
 
 
-#=Install packages 
+#= Install packages 
 Pkg.add("DataFrames")
 Pkg.add("CSV")
 Pkg.add("Plots")
@@ -29,6 +29,7 @@ using Flux
 using BenchmarkTools
 using LinearAlgebra
 using Base.MathConstants
+using Random
 
 # Enable printing of 1000 columns
 ENV["COLUMNS"] = 1000
@@ -135,7 +136,7 @@ for i in 1:10
         continue
     end
     sq = i^2
-    println("i: $i --- sq: $sq")
+    #println("i: $i --- sq: $sq")
     if sq >= 25
         break
     end
@@ -149,13 +150,31 @@ function f1!(x)
 end
 
 ia = Int64[0,1,2]
-println("Array ia: ", ia)
+#println("Array ia: ", ia)
 
 f1!(ia)
-println("Argument passing by reference: ", ia)
+#println("Argument passing by reference: ", ia)
 
 a1 = [2,3,1,6,2,8]
 sort!(a1)                                   # ! pushes function output in input
 a1
 
-Penis
+# Flux
+model2 = Chain(
+  Dense(10 => 5, σ),
+  Dense(5 => 2),
+  softmax)
+
+model2(rand(10))
+
+# RecurNeuronalNetwork
+rnn = Flux.RNNCell(2, 5)
+
+x = Float32[2.0, 4.0]
+h = Float32[2.0, 4.0, 5.5, 7.2, 9.1]
+
+m = Flux.Recur(rnn, h)
+RNN(7, 6)
+
+Random.seed!(1)
+
