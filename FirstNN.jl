@@ -1,180 +1,37 @@
-# Import Packages
-using Pkg  # Package to install new packages
-
-
-#= Install packages 
-Pkg.add("DataFrames")
-Pkg.add("CSV")
-Pkg.add("Plots")
-Pkg.add("Lathe")
-Pkg.add("GLM")
-Pkg.add("StatsPlots")
-Pkg.add("MLBase")
-Pkg.add("Flux")
-Pkg.add("BenchmarkTools")
-=#
-
-
-#= Load the installed packages
-using DataFrames
-using CSV
-using Plots
-using Lathe
-using GLM
-using Statistics
-using StatsPlots
-using MLBase
-=#
-using Flux
-using BenchmarkTools
-using LinearAlgebra
-using Base.MathConstants
-using Random
-
-# Enable printing of 1000 columns
-ENV["COLUMNS"] = 1000
-
-function testsum(n)
-    x = Float64[2 5 8]
-    y = Float64[5 2 6]
-
-    if n <= 3 && n >= 1
-        k = 0
-        for i in 1:n
-            k = sum(x .- y)
-            x[i] = k
-            y[i] = -k
-        end
-    end
-    
-    return x, y
+# function to calculate the volume of a sphere
+function sphere_vol(r)
+    # julia allows Unicode names (in UTF-8 encoding)
+    # so either "pi" or the symbol π can be used
+    return 4/3*pi*r^3
 end
 
-# Testing time of testsum
-@btime testsum(3)
+# functions can also be defined more succinctly
+quadratic(a, sqr_term, b) = (-b + sqr_term) / 2a
 
-
-
-
-# testing strings
-str = "Peter"
-str1 = str[1:2]
-str2 = str[3:end]
-occursin(r"^[a-z]", str)                    # tiny letter at the start?
-occursin(r"[a-z]$", str)                   # tiny letter at the end?
-
-
-# Tuple
-tup1 = (0.2, 1.5, 15.5, 64.2)
-tup2 = (2.1, 74.5, 57.3, 5.2)
-typeof(tup1)
-
-tup1[2]
-
-
-# Arrays
-a1 = Array{Any}(nothing, 5, 5)
-a2 = Vector(undef, 4)
-a3 = Vector(undef, 4)
-a23 = vcat(a2, a3)
-a23 = reshape(a23, 2, 4)
-fill!(a1, 5)
-
-A = [5 2 6; 2 6 7; 1 5 0]
-invA = inv(A)
-
-zeros(Int64, 5, 5)
-imat = Matrix{Int8}(I, (2,2))
-
-A1 = [sqrt(i) for i in [64, 25, 90]]
-
-
-# Dictionaries
-D0 = Dict{String, String}()
-
-get(D0, "Penis", "unknown")
-get!(D0, "Penis", "Hey")
-haskey(D0, "Penis")
-
-D0["Damn"] = "shit"
-get(D0, "Damn", "unknown")
-
-DKey = collect(keys(D0))
-
-
-# Controll Flow
-b1 = begin 
-    c = 2
-    b = 5
-    c * b
-end
-println(b1)
-
-k = 2
-if k == 0
-    "great!"
-elseif k <= 2
-    "not great!"
-else
-    "fail!"
+# calculates x for 0 = a*x^2+b*x+c, arguments types can be defined in function definitions
+function quadratic2(a::Float64, b::Float64, c::Float64)
+    # unlike other languages 2a is equivalent to 2*a
+    # a^2 is used instead of a**2 or pow(a,2)
+    sqr_term = sqrt(b^2-4a*c)
+    r1 = quadratic(a, sqr_term, b)
+    r2 = quadratic(a, -sqr_term, b)
+    # multiple values can be returned from a function using tuples
+    # if the return keyword is omitted, the last term is returned
+    r1, r2
 end
 
-println(
-    k == 0 ? "great!" :
-    k <= 2 ? "not great!" :
-    "fail!")
+vol = sphere_vol(3)
+# @printf allows number formatting but does not automatically append the \n to statements, see below
+using Printf
+@printf "volume = %0.3f\n" vol 
+#> volume = 113.097
 
-# Loops
-odd = [1,3,5]
-even = [2,4,6]
-for i in odd, j in even
-    i*j
-end
+quad1, quad2 = quadratic2(2.0, -2.0, -12.0)
+println("result 1: ", quad1)
+#> result 1: 3.0
+println("result 2: ", quad2)
+#> result 2: -2.0
 
-for i in 1:10
-    if i % 2 == 0
-        continue
-    end
-    sq = i^2
-    #println("i: $i --- sq: $sq")
-    if sq >= 25
-        break
-    end
-end
+prinln("peter1")
 
-
-# functions
-function f1!(x)
-    x[1] = 9999
-    return(x)
-end
-
-ia = Int64[0,1,2]
-#println("Array ia: ", ia)
-
-f1!(ia)
-#println("Argument passing by reference: ", ia)
-
-a1 = [2,3,1,6,2,8]
-sort!(a1)                                   # ! pushes function output in input
-a1
-
-# Flux
-model2 = Chain(
-  Dense(10 => 5, σ),
-  Dense(5 => 2),
-  softmax)
-
-model2(rand(10))
-
-# RecurNeuronalNetwork
-rnn = Flux.RNNCell(2, 5)
-
-x = Float32[2.0, 4.0]
-h = Float32[2.0, 4.0, 5.5, 7.2, 9.1]
-
-m = Flux.Recur(rnn, h)
-RNN(7, 6)
-
-Random.seed!(1)
-
+#> I edited this file bitch
