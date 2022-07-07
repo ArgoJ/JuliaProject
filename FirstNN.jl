@@ -76,5 +76,5 @@ y_predict = model(x_test)
 mse_test = mse(y_predict, y_test)
 
 if mse_test < 0.5
-  @save "mymodel.bson" model
+  @save "model-$(now()).bson" model
 end
