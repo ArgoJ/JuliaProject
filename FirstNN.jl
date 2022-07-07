@@ -1,7 +1,7 @@
 # Import Packages
 using Pkg
 using Flux
-using Flux: mse, train!
+using Flux: mse, msle, train!
 using BenchmarkTools
 using LinearAlgebra
 using Base.MathConstants
@@ -17,7 +17,7 @@ dataLength = 10000
 x_data = rand(Float32, (dataLength, 1))*10
 
 # function f(x) 
-f(x::Matrix{Float32}) = 5 .* x.^4 - 42 .* (1 ./ x.^2)
+f(x::Matrix{Float32}) = 5 .* x.^2 - 42 .* (1 ./ x)
 y_data = f(x_data)
 
 # train percentage
@@ -45,13 +45,11 @@ Random.seed!(1)
 # Neural network model
 model = Chain(
   Dense(1 => 31),
-  Dense(31 => 23, relu),
-  Dense(23 => 44, relu),
-  Dense(44 => 33, relu),
-  Dense(33 => 99, relu),
-  Dense(99 => 1))
+  Dense(31 => 23, sigmoid),
+  Dense(23 => 84, relu),
+  Dense(84 => 1))
 
-# loss function
+# train params
 loss(x, y) = mse(model(x), y)
 ps = Flux.params(model) 
 opt= ADAM(1e-3)
