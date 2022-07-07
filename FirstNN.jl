@@ -17,7 +17,7 @@ dataLength = 10000
 x_data = rand(Float32, (dataLength, 1))*10
 
 # function f(x) 
-f(x::Matrix{Float32}) = 5 .* x.^4 #- 42 .* (1 ./ x.^2)
+f(x::Matrix{Float32}) = 5 .* x.^4 - 42 .* (1 ./ x.^2)
 y_data = f(x_data)
 
 # train percentage
@@ -60,7 +60,7 @@ opt= ADAM(1e-3)
 # train model
 loss_history = []
 
-epochs = 100000
+epochs = 1000
 
 for epoch in 1:epochs
   train!(loss, ps, [(x_train, y_train)], opt)
