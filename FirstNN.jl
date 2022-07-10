@@ -45,11 +45,11 @@ Random.seed!(1)
 
 # Neural network model
 model = Chain(
-  Dense(1 => 33),
-  Dense(33 => 24, relu),
-  Dense(24 => 12, relu),
-  Dense(12 => 99, relu),
-  Dense(99 => 1))
+  Dense(1 => 84),
+  Dense(84 => 23, relu),
+  Dense(23 => 12, relu),
+  Dense(12 => 5, relu),
+  Dense(5 => 1))
 
 # train params and callback
 loss(x, y) = mse(model(x), y)
